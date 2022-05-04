@@ -27,11 +27,13 @@ export class BoardComponent implements OnInit {
   } 
 
   playMove(index: number) : void {
+    // Check if the square has not been clicked and if no winner has been designated
     if(!this.squares[index] && !this.winner){
       this.squares.splice(index, 1, this.currentPlayer);
       this.currentPlayer = this.currentPlayer === "X" ? 'O' : 'X';
     }
 
+    // If all sqaures have been clicked, it is a draw. Else, we try to get the winner if there is one.
     if(!this.squares.includes(null)){
       this.draw = true;
     }else{
@@ -61,14 +63,16 @@ export class BoardComponent implements OnInit {
     return null;
   }
 
+  // Listen to key up event so players can play with numpad.
   @HostListener('document:keyup', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) { 
-    const cells = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+    // Assigns keys to specified squares
+    const squares = [0, 1, 2, 3, 4, 5, 6, 7, 8];
     const keys = [7, 8, 9, 4, 5, 6, 1, 2, 3];
 
     if(keys.includes(parseInt(event.key))){
-      const cell = cells[keys.indexOf((parseInt(event.key)))]
-      this.playMove(cell);
+      const square = squares[keys.indexOf((parseInt(event.key)))]
+      this.playMove(square);
     }
   }
 }
